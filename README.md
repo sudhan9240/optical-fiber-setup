@@ -20,5 +20,5 @@ In this experiment we are going to create a VR scene of the optical fiber setup 
 
 SrNo | Name | Faculty or Student | Department| Institute | Email id
 :--|:--|:--|:--|:--|:--|
-1 | Sudhanshu Gond | Student | Information Technology | Rajkiya Engineering College | .
+1 | Sudhanshu Gond | Student | Information Technology | Rajkiya Engineering College | 2407340130059@recbanda.ac.in
 2 | . | . | . | . | .
