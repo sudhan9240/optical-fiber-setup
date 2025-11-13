@@ -20,5 +20,5 @@ In this experiment we are going to create a VR scene of the optical fiber setup 
 
 SrNo | Name | Faculty or Student | Department| Institute | Email id
 :--|:--|:--|:--|:--|:--|
-1 | Sudhanshu Gond | Student | . | . | .
+1 | Sudhanshu Gond | Student | Information Technology | . | .
 2 | . | . | . | . | .
