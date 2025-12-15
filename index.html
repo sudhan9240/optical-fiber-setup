@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>VR Optical Fiber Setup</title>
+    <!-- A-Frame is the core library for WebVR development -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <!-- Custom component to simulate a simple bent fiber path -->
+    <script>
+        AFRAME.registerComponent('fiber-path', {
+            schema: {
+                length: {type: 'number', default: 5},
+                radius: {type: 'number', default: 0.05},
+                color: {type: 'color', default: '#FF4500'} // Red-Orange light
+            },
+            init: function () {
+                const el = this.el;
+                const data = this.data;
+                const pathCount = 5; // Number of segments for the bend
+
+                for (let i = 0; i < pathCount; i++) {
+                    const segmentLength = data.length / pathCount;
+                    const segment = document.createElement('a-cylinder');
+                    
+                    // Simple path definition (adjust for a nice bend)
+                    let xPos = -data.length/2 + i * segmentLength;
+                    let yPos = 1.0;
+                    let zPos = Math.sin(i * Math.PI / (pathCount - 1)) * 1.5;
+
+                    segment.setAttribute('position', `${xPos} ${yPos} ${zPos}`);
+                    segment.setAttribute('rotation', `90 ${90 + (i * 10)} 0`); // Rotate to make it horizontal and slightly bent
+                    segment.setAttribute('height', segmentLength);
+                    segment.setAttribute('radius', data.radius);
+                    
+                    // The key to visualization: Emissive material for the light signal
+                    segment.setAttribute('material', `color: ${data.color}; emissive: ${data.color}; emissiveIntensity: 2.5; metalness: 0.8; roughness: 0.1;`);
+                    el.appendChild(segment);
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- The VR Scene container -->
+    <a-scene background="color: #111122">
+
+        <!-- 1. SCENE SETUP (Camera and Lights) -->
+        <a-entity camera look-controls position="0 2 5">
+            <!-- Cursor for non-VR interaction -->
+            <a-cursor></a-cursor>
+        </a-entity>
+        
+        <!-- Ambient light -->
+        <a-light type="ambient" color="#BBB"></a-light>
+        <!-- Directional light for shadows/definition -->
+        <a-light type="directional" color="#FFF" position="1 2 4"></a-light>
+
+        <!-- 2. WORKBENCH -->
+        <a-box position="0 0.5 0" depth="6" width="8" height="0.1" 
+               color="#5C4033" shadow="receive: true"></a-box>
+        
+        <!-- 3. LIGHT SOURCE (TRANSMITTER) -->
+        <a-entity position="-3.5 1.05 0" rotation="0 90 0">
+            <!-- Housing -->
+            <a-box width="1.5" height="0.5" depth="0.8" color="#444444" 
+                   shadow="cast: true"></a-box>
+            <!-- Port/Junction (The light origin) -->
+            <a-cylinder radius="0.15" height="0.1" rotation="90 0 0" position="0.75 0 0"
+                        material="color: #FF0000; emissive: #FF0000; emissiveIntensity: 1.5;"></a-cylinder>
+            <!-- Label -->
+            <a-text value="Light Source (TX)" position="0 0.45 0" align="center" width="2.5" color="#FFF"></a-text>
+        </a-entity>
+        
+        <!-- 4. PHOTODETECTOR (RECEIVER) -->
+        <a-entity position="3.5 1.05 0" rotation="0 -90 0">
+            <!-- Housing -->
+            <a-box width="1.5" height="0.5" depth="0.8" color="#444444"
+                   shadow="cast: true"></a-box>
+            <!-- Sensor/Display Area -->
+            <a-plane width="0.7" height="0.3" position="-0.3 0 0.401" rotation="0 0 0"
+                     material="color: #00FF00; emissive: #00FF00; emissiveIntensity: 0.8;"></a-plane>
+            <a-text value="1.0 V Detected" position="-0.3 0 0.402" align="center" width="1.0" color="#000" font="roboto"></a-text>
+            <!-- Connector Port -->
+            <a-cylinder radius="0.15" height="0.1" rotation="90 0 0" position="0.75 0 0"
+                        color="#888888"></a-cylinder>
+            <!-- Label -->
+            <a-text value="Photodetector (RX)" position="0 0.45 0" align="center" width="2.5" color="#FFF"></a-text>
+        </a-entity>
+        
+        <!-- 5. OPTICAL FIBER (The Light Path) -->
+        <a-entity position="0 0.8 0" fiber-path="length: 7; radius: 0.03; color: #FF4500"></a-entity>
+        
+        <!-- Educational Text: Total Internal Reflection -->
+        <a-text value="Total Internal Reflection in Fiber Core" position="0 2.5 -3" align="center" width="5" color="#ADD8E6"></a-text>
+
+    </a-scene>
+</body>
+</html>
