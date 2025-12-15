@@ -4,7 +4,7 @@
 <b>Discipline | <b> REC Banda
 :--|:--|
 <b> Lab | <b> Virtual Lab 
-<b> Experiment|     <b> Build a VR scene of the optical fiber setup with a light source, fiber, and photodetector.
+<b> Experiment|     <b> Build a VR scene of the optical fiber setup with a light source, fiber, and photodetector. Measurement of Numerical aperture and attenuation constant of optical fiber
 
 ### About the Experiment 
 
